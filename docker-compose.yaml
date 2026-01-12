@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:8.4
+    container_name: redis
+    hostname: dkr_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: >
+      redis-server 
+      --save 60 1 
+      --appendonly yes 
+      --appendfsync everysec
+    volumes:
+      - ./redis_data:/data
+
+  redisinsight_ui:
+    image: redis/redisinsight:latest
+    container_name: redisinsight_ui
+    hostname: dkr_redisinsight_ui
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    volumes:
+      - ./redisinsight_data:/data
+    depends_on:
+      - redis
+
