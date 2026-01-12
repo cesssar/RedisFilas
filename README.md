@@ -127,5 +127,6 @@ docker-compose down -v
     XPENDING tarefas processar_ocorrencias
     ```
 
+![Painel RedisInsight](https://github.com/cesssar/RedisFilas/blob/main/redis_filas.gif)
 
 Licença: MIT (sinta-se livre para adaptar este material para estudos ou testes).
