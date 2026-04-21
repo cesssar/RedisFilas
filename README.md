@@ -74,11 +74,11 @@ pip install -r requirements.txt
 
 ## ▶️ Como testar os scripts Python
 
-1. Em terminais separados, execute os workers:
+1. Em terminais separados, execute quantos workers quiser para testes, mas sempre com nomes diferentes. Caso execute duas ou mais instâncias com o mesmo nome, por exemplo worker1, o mesmo item da fila pode ser processado em mais de uma instância.
 
 ```bash
-python worker_1.py
-python worker_2.py
+python worker.py worker1
+python worker.py worker2
 ```
 
 Você verá mensagens como `Aguardando mensagens em tarefas...`.
@@ -93,7 +93,7 @@ O `produtor.py` envia 50 tarefas para o stream `tarefas` e cada worker irá cons
 
 Observações:
 - O `stream` usado é **`tarefas`** e o `consumer group` é **`processar_ocorrencias`**.
-- Cada worker é identificado por um nome (`worker_1`, `worker_2`); o código demonstra como simular um erro (quando `id == 20`) para testar recuperação de mensagens pendentes.
+- Cada worker é identificado por um nome (`worker1`, `worker2`); o código demonstra como simular um erro (quando `id == 20`) para testar recuperação de mensagens pendentes.
 
 ---
 
@@ -119,7 +119,7 @@ docker-compose down -v
 4. Na aba **Consumer Groups**, selecione `processar_ocorrencias` para inspecionar:
     - Mensagens pendentes (não confirmadas)
     - Última mensagem entregue a cada consumer
-    - Status de cada worker (`worker_1`, `worker_2`)
+    - Status de cada worker (`worker1`, `worker2`)
 5. Use a aba **CLI** para executar comandos Redis manualmente, como:
     ```
     XLEN tarefas
@@ -130,3 +130,9 @@ docker-compose down -v
 ![Painel RedisInsight](https://github.com/cesssar/RedisFilas/blob/main/redis_filas.gif)
 
 Licença: MIT (sinta-se livre para adaptar este material para estudos ou testes).
+
+## 📝 Changelog
+
+### Versão 1.1.0
+- **Unificado**: `worker_1.py` e `worker_2.py` foram consolidados em um único `worker.py` que aceita o nome do worker como argumento de linha de comando.
+- **Melhoria**: Agora o item processado é deletado da fila automaticamente após a confirmação (ACK), otimizando o uso de memória.

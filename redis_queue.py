@@ -8,7 +8,8 @@ class RedisQueue:
         self.__client = redis.Redis(
             host=host, 
             port=port, 
-            db=db, 
+            db=db,
+            password='asdfWRAETVAasdfRRFVsdfg',
             decode_responses=True
         )
 
@@ -69,6 +70,11 @@ class RedisQueue:
     def acknowledge(self, stream_name: str, group_name: str, message_id: str):
         """Confirma o processamento da mensagem (ACK)."""
         return self.__client.xack(stream_name, group_name, message_id)
+    
+
+    def delete(self, stream_name: str, message_id: str):
+        """Deleta a mensagem do stream (XDEL)."""
+        return self.__client.xdel(stream_name, message_id)
     
 
 
